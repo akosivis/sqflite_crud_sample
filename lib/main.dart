@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'database/database_helper.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -40,6 +42,19 @@ class SqfliteDemo extends StatefulWidget {
 }
 
 class _SqfliteDemoState extends State<SqfliteDemo> {
+  // reference to our single class that manages the database
+  final dbHelper = DatabaseHelper.instance;
+
+  void insertNote(String title, String content) async {
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnTitle : title,
+      DatabaseHelper.columnContent : content
+    };
+
+    final id = await dbHelper.insert(row);
+    print('inserted row id: $id');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +73,9 @@ class _SqfliteDemoState extends State<SqfliteDemo> {
                       child: ElevatedButton.icon(
                         icon: Icon(Icons.add),
                         label: Text("Add a new item"),
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                       ),
                     ),
                     Expanded(
